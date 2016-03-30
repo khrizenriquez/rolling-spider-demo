@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8">
+        <title>Rolling spider</title>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+        <link rel="stylesheet" href="/css/pureCss/pure-min.css" charset="utf-8" />
+        <link rel="stylesheet" href="/css/pureCss/base-min.css" charset="utf-8" />
+        <link rel="stylesheet" href="/css/pureCss/grids-responsive-min.css" charset="utf-8" />
+        <link rel="stylesheet" href="/css/main.css" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+    </head>
+    <body>
+        <div class="">
+            <h2>¿Quiéres conectárte?</h2>
+            <button class="pure-button pure-button-primary">Conectar</button>
+        </div>
+        <div class="pure-g">
+            <div id="options-container" class="pure-u-1 pure-u-md-2-5"><p>Controls</p></div>
+            <div id="queue-list" class="pure-u-1 pure-u-md-2-5"><p>Cola de peticiones</p></div>
+            <div class="pure-u-1 pure-u-md-1-5"><p>Clientes conectados</p></div>
+        </div>
+
+        <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+        <script src="/js/app.js"></script>
+        <script>
+        //
+        document.addEventListener('DOMContentLoaded', function (e) {
+            var socket = io();
+        });
+        </script>
+    </body>
+</html>
