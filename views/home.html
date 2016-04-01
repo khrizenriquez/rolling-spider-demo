@@ -28,7 +28,11 @@
         <script>
         //
         document.addEventListener('DOMContentLoaded', function (e) {
-            var socket = io();
+            var socket = io('/rolling-chanel');
+            socket.on('connection', function (data) {
+                console.log(data);
+                socket.emit('my other event', { my: "I'm in" });
+            });
         });
         </script>
     </body>
