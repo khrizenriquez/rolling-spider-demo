@@ -1,2 +1,2 @@
-# rolling-spider-pane
-Panel para controlar el mini drone rolling spider
+# rolling-spider-demo
+Código para ventana de usuarios conectados a una red, y enviar instrucciones al rolling spider drone para que sepa que hacer
