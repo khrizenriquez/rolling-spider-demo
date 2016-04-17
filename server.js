@@ -67,7 +67,8 @@ app.use(express.static(__dirname + '/public'));
 /********************************
 Creating socket
 ********************************/
-var users = [];
+var users       = [],
+    userActions = [];
 //var nsp = io.of('/rolling-chanel');
 io.on('connection', function (socket) {
   console.log('someone connected');
@@ -75,9 +76,6 @@ io.on('connection', function (socket) {
 
   socket.on('user-connected', function(data) {
       users.push(data);
-      console.dir(`Valor que viene en data ${data}`);
-      console.log('Messages');
-      console.dir(users);
 
       if (socket.handshake.session.appName === undefined) {
           socket.handshake.session.appName     = 'Rolling-spider';
@@ -87,6 +85,17 @@ io.on('connection', function (socket) {
       }
 
       io.sockets.emit('user-connected', users);
+  });
+
+  socket.emit('user-actions', users);
+
+  socket.on('user-actions', function(data) {
+      userActions.push(data.userActions);
+
+      console.log('Acciones del usuario');
+      console.log(userActions);
+
+      io.sockets.emit('user-actions', userActions);
   });
 
 });
@@ -100,8 +109,6 @@ function createSessionForUser (request, params) {
         request.myName      = params.myName;
     }
 }
-
-
 
 var connectUser = function (request, params) {
     let r           = request || undefined;
