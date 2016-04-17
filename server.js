@@ -75,8 +75,9 @@ io.on('connection', function (socket) {
 
   socket.on('user-connected', function(data) {
       users.push(data);
+      console.dir(`Valor que viene en data ${data}`);
       console.log('Messages');
-      console.log(users);
+      console.dir(users);
 
       if (socket.handshake.session.appName === undefined) {
           socket.handshake.session.appName     = 'Rolling-spider';
