@@ -15,11 +15,11 @@ var getDroneActions = function () {
         if (xhr.readyState == XMLHttpRequest.DONE) {
             let response    = JSON.parse(xhr.responseText);
             let actionPart  = document.createElement("div");
-
-            element.innerHTML += response.map(function (element, index, arr) {
-                console.log(element.action);
-                return `<div>${element.action}</div>`;
+            let txtResponse = '';
+            response.some(function (element, index, arr) {
+                txtResponse+= `<div>${element.action}</div>`;
             });
+            element.innerHTML += txtResponse;
         }
     };
     xhr.open('GET', 'data.json', true);
