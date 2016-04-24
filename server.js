@@ -113,22 +113,18 @@ io.on('connection', function (socket) {
 
 var doQueueDroneActions = function () {
     let interval = setInterval(function () {
-        if (doActions) {
-            if (userActions.length <= 0) {
-                doActions = false;
-                return;
-            }
-            //  Elimino el ultimo valor
-            userActions.pop();
-            io.sockets.emit('user-actions', userActions);
-            console.log('Hay acciones por despachar');
-            console.log(userActions);
-
+        if (!doActions) {
             return;
         }
 
-        console.log('Sin acciones por procesar');
-        console.log(userActions);
+        if (userActions.length <= 0) {
+            doActions = false;
+            return;
+        }
+        //  Elimino el ultimo valor
+        userActions.pop();
+        io.sockets.emit('user-actions', userActions);
+
         return;
     }, 5000);
 }();
