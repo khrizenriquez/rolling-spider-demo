@@ -68,7 +68,8 @@ app.use(express.static(__dirname + '/public'));
 Creating socket
 ********************************/
 var users       = [],
-    userActions = [];
+    userActions = [],
+    doActions   = false;
 //var nsp = io.of('/rolling-chanel');
 io.on('connection', function (socket) {
   console.log('someone connected');
@@ -92,19 +93,45 @@ io.on('connection', function (socket) {
     socket.on('user-actions', function(data) {
         let limit           = 10,
             lastElements    = [];
+        data.userActions.done = false;
         userActions.unshift(data.userActions);
 
         if (userActions.length > 0) {
+            doActions = true;
             userActions.some(function (element, index, arr) {
                 if (index >= limit) return false;
                 lastElements.push(element);
             });
+        } else {
+            doActions = false;
         }
 
         io.sockets.emit('user-actions', lastElements);
     });
 
 });
+
+var doQueueDroneActions = function () {
+    let interval = setInterval(function () {
+        if (doActions) {
+            if (userActions.length <= 0) {
+                doActions = false;
+                return;
+            }
+            //  Elimino el ultimo valor
+            userActions.pop();
+            io.sockets.emit('user-actions', userActions);
+            console.log('Hay acciones por despachar');
+            console.log(userActions);
+
+            return;
+        }
+
+        console.log('Sin acciones por procesar');
+        console.log(userActions);
+        return;
+    }, 5000);
+}();
 
 function createSessionForUser (request, params) {
     //  Validate if session exist
