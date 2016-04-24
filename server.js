@@ -101,8 +101,6 @@ io.on('connection', function (socket) {
             });
         }
 
-        console.log(lastElements);
-
         io.sockets.emit('user-actions', lastElements);
     });
 
