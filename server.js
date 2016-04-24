@@ -4,6 +4,11 @@
 
 'use strict';
 
+//  Rolling spider library
+var RollingSpider   = require('rolling-spider');
+var rollingSpider   = new RollingSpider();
+//  Rolling spider library
+
 var express = require('express');
 //var session = require('express-session');
 var cookieParser = require('cookie-parser')();
@@ -166,12 +171,31 @@ var userIsConnected = function (request) {
 /********************************
 ROUTES
 ********************************/
-app.post('/service/:action', function (req, res) {
+app.post('/droneaction/:action', function (req, res) {
     if (req.params.action === 'wakeupdrone') {
         console.log('Iniciar drone');
+        rollingSpider.connect(function () {
+            rollingSpider.setup(function () {
+                rollingSpider.flatTrim();
+                rollingSpider.startPing();
+                rollingSpider.flatTrim();
+
+                rollingSpider.takeOff();
+                rollingSpider.flatTrim();
+
+                console.log('Drone iniciado');
+                setTimeout(function () {
+                    rollingSpider.on('battery', function () {
+                        //  Battery status
+                        console.log('Battery status ' + rollingSpider.status.battery);
+                    });
+                }, 1000);
+            });
+        });
     } else
     if (req.params.action === 'putsleep') {
         console.log('Poner a domir');
+        rollingSpider.land();
     } else {
         console.log('Ninguna acción definida');
     }
