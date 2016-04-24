@@ -54,7 +54,7 @@
                 data.some(function (element, index, arr) {
                     tmpResponse += `<div>${element.myName}</div>`;
                 });
-                document.querySelector('#clients .clients').innerHTML += tmpResponse;
+                document.querySelector('#clients .clients').innerHTML = tmpResponse;
             }
 
         });
