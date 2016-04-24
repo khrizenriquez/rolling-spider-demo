@@ -30,7 +30,7 @@
 
         <script>
         'use strict';
-        document.querySelector('#wakeup').addEventListener('click', function (e) {
+        var droneAction = function (todo) {
             let xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == XMLHttpRequest.DONE) {
@@ -38,8 +38,14 @@
                     console.log(response);
                 }
             };
-            xhr.open('POST', '/service/wakeupdrone', true);
+            xhr.open('POST', `/droneaction/${todo}`, true);
             xhr.send(null);
+        };
+        document.querySelector('#wakeup').addEventListener('click', function (e) {
+            droneAction('wakeupdrone');
+        });
+        document.querySelector('#putsleep').addEventListener('click', function (e) {
+            droneAction('putsleep');
         });
         </script>
     </body>
