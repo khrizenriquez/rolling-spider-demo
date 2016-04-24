@@ -1,40 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Admin rolling spider</title>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <title>Admin rolling spider</title>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-    <link rel="stylesheet" href="/css/pureCss/pure-min.css" charset="utf-8" />
-    <link rel="stylesheet" href="/css/pureCss/base-min.css" charset="utf-8" />
-    <link rel="stylesheet" href="/css/pureCss/grids-responsive-min.css" charset="utf-8" />
-    <link rel="stylesheet" href="/css/main.css" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
-</head>
-<body>
-
-    <div class="">
-        <form class="pure-form">
-            <fieldset class="pure-group">
-                <div>
-                    <label for="username">usuario</label>
-                    <input id="username" type="text" class="pure-input-1-3" placeholder="Usuario" />
-                </div>
-                <div>
-                    <label for="password">clave</label>
-                    <input id="password" type="password" class="pure-input-1-3" placeholder="Clave" />
-                </div>
-            </fieldset>
-
-            <button type="submit" class="pure-button pure-input-1-3 pure-button-primary">Inicia sesión</button>
-        </form>
-    </div>
-
-    <div>
-        <div>
-            usuarios creados
+        <link rel="stylesheet" href="/css/pureCss/pure-min.css" charset="utf-8" />
+        <link rel="stylesheet" href="/css/pureCss/base-min.css" charset="utf-8" />
+        <link rel="stylesheet" href="/css/pureCss/grids-responsive-min.css" charset="utf-8" />
+        <link rel="stylesheet" href="/css/main.css" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+    </head>
+    <body>
+        <div class="">
+            <form class="pure-form">
+                <fieldset class="pure-group">
+                    <div>
+                        <label for="username">Iniciar</label>
+                        <button id="wakeup" type="button" class="pure-button pure-input-1-3 pure-button-primary">Encender</button>
+                    </div>
+                    <div>
+                        <label for="password">Apagar</label>
+                        <button id="putsleep" type="button" class="pure-button pure-input-1-3 pure-button-primary">Apagar</button>
+                    </div>
+                </fieldset>
+            </form>
         </div>
-    </div>
-</body>
+
+        <script>
+        'use strict';
+        document.querySelector('#wakeup').addEventListener('click', function (e) {
+            let xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == XMLHttpRequest.DONE) {
+                    let response    = JSON.parse(xhr.responseText);
+                    console.log(response);
+                }
+            };
+            xhr.open('POST', '/service/wakeupdrone', true);
+            xhr.send(null);
+        });
+        </script>
+    </body>
 </html>

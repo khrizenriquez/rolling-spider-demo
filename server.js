@@ -166,9 +166,21 @@ var userIsConnected = function (request) {
 /********************************
 ROUTES
 ********************************/
+app.post('/service/:action', function (req, res) {
+    if (req.params.action === 'wakeupdrone') {
+        console.log('Iniciar drone');
+    } else
+    if (req.params.action === 'putsleep') {
+        console.log('Poner a domir');
+    } else {
+        console.log('Ninguna acción definida');
+    }
+
+    return res.json();
+});
+
 app.get('/', function (req, res) {
     requestSession  = req.session;
-    console.log(requestSession);
     let objResponse         = {};
     let connected   = userIsConnected(requestSession);
     objResponse.isLogged = false;
