@@ -28,6 +28,7 @@
     "gulp-uglify": "^1.1.0",
     "gulp-useref": "^3.0.0",
     "main-bower-files": "^2.5.0",
+    "rolling-spider": "^1.5.2",
     "wiredep": "^2.2.2"
   },
   "eslintConfig": {
