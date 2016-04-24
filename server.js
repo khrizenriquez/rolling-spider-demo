@@ -89,14 +89,22 @@ io.on('connection', function (socket) {
 
   socket.emit('user-actions', users);
 
-  socket.on('user-actions', function(data) {
-      userActions.push(data.userActions);
+    socket.on('user-actions', function(data) {
+        let limit           = 10,
+            lastElements    = [];
+        userActions.unshift(data.userActions);
 
-      console.log('Acciones del usuario');
-      console.log(userActions);
+        if (userActions.length > 0) {
+            userActions.some(function (element, index, arr) {
+                if (index >= limit) return false;
+                lastElements.push(element);
+            });
+        }
 
-      io.sockets.emit('user-actions', userActions);
-  });
+        console.log(lastElements);
+
+        io.sockets.emit('user-actions', lastElements);
+    });
 
 });
 

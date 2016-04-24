@@ -22,6 +22,7 @@ var userAction = function () {
             let tmpData = '';
 
             data.some(function (element, index, arr) {
+                if (element === null) return;
                 console.log(element.id);
                 tmpData += `<div id="${element.id}">${element.action}</div>`;
             });
