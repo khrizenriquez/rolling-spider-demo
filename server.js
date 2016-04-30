@@ -118,6 +118,42 @@ io.on('connection', function (socket) {
 
 });
 
+var purifyUserName = function (name) {
+    let n           = name || 'afroc-drone',
+        comodinName = 'afroc-drone',
+        finalName   = '';
+
+    //  El nombre que entre lo limpio, si vienen palabras que no deben ir en el nombre
+    //  las reemplazo
+    let badWords = [
+        'put',
+        'cagu',
+        'mierd',
+        'culer',
+        'verg'
+
+        //
+        'ass',
+        'asshole',
+        'dick',
+        'jerkass',
+        'fuck*'
+    ];
+
+    let tmpName = name.toLowerCase();
+    badWords.some(function (element, index, arr) {
+        if (tmpName.match(element)) {
+            finalName = n.replace(new RegExp(element, 'g'), '_');
+
+            let count = finalName.split('').map(function (a, b) {
+                return (a+b);
+            });
+
+            return false;
+        }
+    });
+};
+
 var doQueueDroneActions = function () {
     let interval = setInterval(function () {
         if (!doActions) {
