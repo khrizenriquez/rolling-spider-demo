@@ -6,7 +6,9 @@
 
 //  Rolling spider library
 var RollingSpider   = require('rolling-spider');
+var uuid = '9a66fd540800919111e4012d1540cb8e';
 var rollingSpider   = new RollingSpider();
+
 //  Rolling spider library
 
 var express = require('express');
@@ -173,29 +175,37 @@ ROUTES
 ********************************/
 app.post('/droneaction/:action', function (req, res) {
     if (req.params.action === 'wakeupdrone') {
+        var active = false;
         console.log('Iniciar drone');
-        rollingSpider.connect(function () {
+        rollingSpider.connect(function (e) {
+            console.log('Conectado');
             rollingSpider.setup(function () {
                 rollingSpider.flatTrim();
                 rollingSpider.startPing();
                 rollingSpider.flatTrim();
+                console.log('Dentro del setup');
 
-                rollingSpider.takeOff();
-                rollingSpider.flatTrim();
-
-                console.log('Drone iniciado');
-                setTimeout(function () {
-                    rollingSpider.on('battery', function () {
-                        //  Battery status
-                        console.log('Battery status ' + rollingSpider.status.battery);
-                    });
-                }, 1000);
+                active = true;
             });
         });
+
+        var inter = setInterval(function () {
+
+            if (active) {
+                console.log('Ya puedes apagar el drone');
+                rollingSpider.takeOff(function () {});
+
+                clearInterval(inter);
+            }
+        }, 2000);
     } else
     if (req.params.action === 'putsleep') {
         console.log('Poner a domir');
-        rollingSpider.land();
+        rollingSpider.land(function () {
+            console.log('Aterrizando');
+
+            //process.exit(0);
+        });
     } else {
         console.log('Ninguna acción definida');
     }
