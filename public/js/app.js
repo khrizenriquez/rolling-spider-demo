@@ -2,9 +2,25 @@
     @khrizenriquez: Christofer Enríquez
     christoferen7@gmail.com
 */
-
 'use strict';
-var droneActions;
+
+var droneActions, 
+    socket = io.connect(`http://${localIp}:3001`, { 'forceNew': true });
+
+socket.on('user-connected', function (data) {
+    if (document.querySelector('#clients') !== null) {
+        let tmpResponse = '';
+        data.some(function (element, index, arr) {
+            tmpResponse += `<div>${element.myName}</div>`;
+        });
+        document.querySelector('#clients .clients').innerHTML = tmpResponse;
+    }
+
+});
+socket.on('user-actions', function (data) {
+    console.log('Acciones del usuario');
+    console.log(data);
+});
 
 var userAction = function () {
     document.querySelector('#options-container .options-container-elements').addEventListener('click', function (evt) {
@@ -54,4 +70,26 @@ var getDroneActions = function () {
     };
     xhr.open('GET', 'data.json', true);
     xhr.send(null);
-}();
+};
+
+document.addEventListener('DOMContentLoaded', function (e) {
+    let button     = document.querySelector('#connect');
+    let userName   = document.querySelector('#username');
+    if (button !== null) {
+        button.addEventListener('click', function (e) {
+            //let socket = io('/rolling-chanel');
+
+            socket.on('user-connected', function (data) {
+                console.log(data);
+                if (data[0].myName !== undefined) {
+
+
+                    return false;
+                }
+
+                return false;
+            });
+            socket.emit('user-connected', { myName: userName.value });
+        });
+    }
+});
