@@ -78,6 +78,11 @@ document.addEventListener('DOMContentLoaded', function (e) {
     if (button !== null) {
         button.addEventListener('click', function (e) {
             //let socket = io('/rolling-chanel');
+            e.preventDefault();
+
+            if (/^\s*$/.test(document.querySelector('#username').value)) {
+                return false;
+            }
 
             socket.on('user-connected', function (data) {
                 console.log(data);
