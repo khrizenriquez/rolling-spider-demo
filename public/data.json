@@ -17,5 +17,11 @@
     }, {
         "id":       6,
         "action":   "Girar derecha"
+    }, {
+        "id":       7,
+        "action":   "Adelante"
+    }, {
+        "id":       8,
+        "action":   "Atrás"
     }
 ]

@@ -28,6 +28,8 @@ var swig       = require('swig');
 var bodyParser = require('body-parser')();
 //var cookieParser = require('cookie-parser');
 var requestSession;
+const STEPS = 3;
+var ACTIVE = false;
 
 /********************************
 Block the header from containing information about the server
@@ -107,6 +109,7 @@ io.on('connection', function (socket) {
             doActions = true;
             userActions.some(function (element, index, arr) {
                 if (index >= limit) return false;
+
                 lastElements.push(element);
             });
         } else {
@@ -130,14 +133,14 @@ var purifyUserName = function (name) {
         'cagu',
         'mierd',
         'culer',
-        'verg'
+        'verg',
 
         //
         'ass',
         'asshole',
         'dick',
         'jerkass',
-        'fuck*'
+        'fuck'
     ];
 
     let tmpName = name.toLowerCase();
@@ -154,22 +157,82 @@ var purifyUserName = function (name) {
     });
 };
 
+function cooldown () {
+    ACTIVE = false;
+    setTimeout(function () {
+        ACTIVE = true;
+    }, STEPS * 12);
+}
+
+var droneFlight = function (action) {
+    let a = action.toLowerCase() || '';
+
+    console.log(a);
+
+    if (a === 'arriba') {
+        rollingSpider.up({
+            steps: STEPS * 3
+        });
+        cooldown();
+    } else
+    if (a === 'abajo') {
+        rollingSpider.down({
+            steps: STEPS * 3
+        });
+        cooldown();
+    } else
+    if (a === 'izquierda') {
+        rollingSpider.left({ steps: STEPS * 3 });
+        cooldown();
+    } else
+    if (a === 'derecha') {
+        rollingSpider.right({ steps: STEPS * 3 });
+        cooldown();
+    } else
+    if (a === 'girar izquierda') {
+        rollingSpider.turnLeft({ steps: STEPS * 3 });
+        cooldown();
+    } else
+    if (a === 'girar derecha') {
+        rollingSpider.turnRight({ steps: STEPS * 3 });
+        cooldown();
+    } else
+    if (a === 'adelante') {
+        //rollingSpider.forward({ steps: STEPS });
+        rollingSpider.forward({ steps: STEPS * 3 }, function () {
+            console.log('Adelante');
+        });
+        cooldown();
+    } else
+    if (a === 'atrás') {
+        rollingSpider.backward({ steps: STEPS * 3 }, function () {
+            console.log('atrás');
+        });
+        //rollingSpider.backward({ steps: STEPS });
+        cooldown();
+    } else {
+        console.log('Condición no definida');
+    }
+
+    return;
+};
+
 var doQueueDroneActions = function () {
     let interval = setInterval(function () {
-        if (!doActions) {
-            return;
-        }
+        if (!doActions) return;
 
         if (userActions.length <= 0) {
             doActions = false;
             return;
         }
+        //  Ejecuto la acción del drone
+        let p = userActions.pop();
         //  Elimino el ultimo valor
-        userActions.pop();
+        droneFlight(p.action);
         io.sockets.emit('user-actions', userActions);
 
         return;
-    }, 5000);
+    }, 3000);
 }();
 
 function createSessionForUser (request, params) {
@@ -211,7 +274,7 @@ ROUTES
 ********************************/
 app.post('/droneaction/:action', function (req, res) {
     if (req.params.action === 'wakeupdrone') {
-        var active = false;
+        ACTIVE = false;
         console.log('Iniciar drone');
         rollingSpider.connect(function (e) {
             console.log('Conectado');
@@ -221,13 +284,13 @@ app.post('/droneaction/:action', function (req, res) {
                 rollingSpider.flatTrim();
                 console.log('Dentro del setup');
 
-                active = true;
+                ACTIVE = true;
             });
         });
 
         var inter = setInterval(function () {
 
-            if (active) {
+            if (ACTIVE) {
                 console.log('Ya puedes apagar el drone');
                 rollingSpider.takeOff(function () {});
 
@@ -239,8 +302,11 @@ app.post('/droneaction/:action', function (req, res) {
         console.log('Poner a domir');
         rollingSpider.land(function () {
             console.log('Aterrizando');
+            //  Mato todos los procesos actuales que ejecuta el drone
+            userActions = [];
+            doActions   = false;
 
-            //process.exit(0);
+            process.exit(0);
         });
     } else {
         console.log('Ninguna acción definida');
