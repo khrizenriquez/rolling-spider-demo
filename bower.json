@@ -4,6 +4,6 @@
   "dependencies": {
     "jquery": "~2.1.1",
     "modernizr": "~2.8.1",
-    "ember": "^2.4.3"
+    "react": "^15.0.2"
   }
 }
