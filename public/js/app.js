@@ -60,7 +60,7 @@ var getDroneActions = function () {
             let actionPart  = document.createElement("div");
             let txtResponse = '';
             response.some(function (element, index, arr) {
-                txtResponse += `<div id="${element.id}">${element.action} <span class="userAction">+</span></div>`;
+                txtResponse += `<div class="drone-actions-list relative" id="${element.id}">${element.action} <span class="userAction drone-actions-list-icon">+</span></div>`;
             });
             droneActions        = response;
             element.innerHTML   = txtResponse;
@@ -85,12 +85,18 @@ document.addEventListener('DOMContentLoaded', function (e) {
             }
 
             socket.on('user-connected', function (data) {
-                console.log(data);
-                if (data[0].myName !== undefined) {
-
-
+                console.log(data[0].myName);
+                if (data[0].myName === undefined) {
                     return false;
                 }
+
+                let login = document.querySelector('.login-container');
+                login.style.right = '100%';
+                let clientDiv = document.querySelector('#clientActions');
+                setTimeout(function () {
+                    clientDiv.classList.remove('display-none');
+                    getDroneActions();
+                }, 1000);
 
                 return false;
             });

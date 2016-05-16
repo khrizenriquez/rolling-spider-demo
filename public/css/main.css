@@ -37,6 +37,20 @@ body {
 .absolute {
     position: absolute;
 }
+.drone-actions-list {
+    padding: 0.5em;
+    background: red;
+    margin-bottom: 0.5em;
+    border-radius: 0.5em;
+}
+.drone-actions-list-icon {
+    position: absolute;
+    right: 0%;
+    padding: 0.5em 2em;
+    top: 0%;
+    background: white;
+    border-radius: 0 0.5em 0.5em 0;
+}
 .display-none {
     display: none;
 }
@@ -54,6 +68,9 @@ body {
 }
 #control-buttons {
     display: none;
+}
+#clientActions {
+    transition: all 0.5s linear;
 }
 #image-container {
     background-color: red;
