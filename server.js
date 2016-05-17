@@ -127,6 +127,9 @@ io.on('connection', function (socket) {
   socket.emit('user-actions', users);
 
     socket.on('user-actions', function(data) {
+        console.log('------------------');
+        console.dir(data);
+        console.log('------------------');
         let limit           = 10,
             lastElements    = [];
         data.userActions.done = false;

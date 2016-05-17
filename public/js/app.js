@@ -4,12 +4,14 @@
 */
 'use strict';
 
+var ipData = (window.location.href.match('localhost') !== null) ? 'localhost' : '192.168.0.18';
+
 var droneActions, 
-    socket = io.connect(`http://${localIp}:3001`, { 'forceNew': true });
+    socket = io.connect(`http://${ipData}:3001`, { 'forceNew': true });
 
 socket.on('user-connected', function (data) {
     if (document.querySelector('#clients') !== null) {
-        let tmpResponse = '';
+        var tmpResponse = '';
         data.some(function (element, index, arr) {
             tmpResponse += `<div>${element.myName}</div>`;
         });
@@ -20,52 +22,51 @@ socket.on('user-connected', function (data) {
 socket.on('user-actions', function (data) {
     console.log('Acciones del usuario');
     console.log(data);
+    getDroneActions();
 });
 
-var userAction = function () {
-    document.querySelector('#options-container .options-container-elements').addEventListener('click', function (evt) {
-        let actionId = parseInt(evt.target.id);
-        let actionObject;
-        droneActions.some(function (element, index, arr) {
-            if (element.id === actionId) {
-                actionObject = element;
-                return true;
-            }
-        });
-
-        socket.on('user-actions', function (data) {
-            let queueList = document.querySelector('#queue-list .list');
-            let tmpData = '';
-
-            data.some(function (element, index, arr) {
-                if (element === null) return;
-                console.log(element.id);
-                tmpData += `<div id="${element.id}">${element.action}</div>`;
-            });
-            queueList.innerHTML = tmpData;
-            //console.log(data);
-        });
-        socket.emit('user-actions', { userActions: actionObject });
+var userAction = function (elementId) {
+    var actionId = parseInt(elementId);
+    var actionObject;
+    droneActions.some(function (element, index, arr) {
+        if (element.id === actionId) {
+            actionObject = element;
+            return true;
+        }
     });
+
+    socket.on('user-actions', function (data) {
+        var queueList = document.querySelector('#queue-list .list');
+        var tmpData = '';
+
+        data.some(function (element, index, arr) {
+            if (element === null) return;
+            tmpData += `<div id="${element.id}">${element.action}</div>`;
+        });
+        queueList.innerHTML = tmpData;
+        //console.log(data);
+    });
+    socket.emit('user-actions', { userActions: actionObject });
+    /*document.querySelector('#options-container .options-container-elements').addEventListener('click', function (evt) {
+        
+    });*/
 };
 /*
 *   Obtenemos las acciones que el drone podrá ejecutar
 */
 var getDroneActions = function () {
-    let xhr = new XMLHttpRequest();
-    let element = document.querySelector('#options-container .options-container-elements');
+    var xhr = new XMLHttpRequest();
+    var element = document.querySelector('#options-container .options-container-elements');
     xhr.onreadystatechange = function() {
         if (xhr.readyState == XMLHttpRequest.DONE) {
-            let response    = JSON.parse(xhr.responseText);
-            let actionPart  = document.createElement("div");
-            let txtResponse = '';
+            var response    = JSON.parse(xhr.responseText);
+            var actionPart  = document.createElement("div");
+            var txtResponse = '';
             response.some(function (element, index, arr) {
-                txtResponse += `<div class="drone-actions-list relative" id="${element.id}">${element.action} <span class="userAction drone-actions-list-icon">+</span></div>`;
+                txtResponse += `<div onclick="return userAction(this.id);" class="drone-actions-list relative" id="${element.id}">${element.action} <span class="userAction drone-actions-list-icon">+</span></div>`;
             });
             droneActions        = response;
             element.innerHTML   = txtResponse;
-
-            userAction();
         }
     };
     xhr.open('GET', 'data.json', true);
@@ -73,11 +74,11 @@ var getDroneActions = function () {
 };
 
 document.addEventListener('DOMContentLoaded', function (e) {
-    let button     = document.querySelector('#connect');
-    let userName   = document.querySelector('#username');
+    var button     = document.querySelector('#connect');
+    var userName   = document.querySelector('#username');
     if (button !== null) {
         button.addEventListener('click', function (e) {
-            //let socket = io('/rolling-chanel');
+            //var socket = io('/rolling-chanel');
             e.preventDefault();
 
             if (/^\s*$/.test(document.querySelector('#username').value)) {
@@ -90,9 +91,9 @@ document.addEventListener('DOMContentLoaded', function (e) {
                     return false;
                 }
 
-                let login = document.querySelector('.login-container');
+                var login = document.querySelector('.login-container');
                 login.style.right = '100%';
-                let clientDiv = document.querySelector('#clientActions');
+                var clientDiv = document.querySelector('#clientActions');
                 setTimeout(function () {
                     clientDiv.classList.remove('display-none');
                     getDroneActions();
