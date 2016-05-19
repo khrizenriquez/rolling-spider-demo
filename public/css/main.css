@@ -108,8 +108,12 @@ body {
         width: 100%;
     }
     #login {
+        margin: 8em auto 0em auto;
         transition: all 0.2s ease;
-        width: 100%;
+        width: 90%;
+    }
+    #login .pure-form {
+        font-size: 24px;
     }
     #options-container {
         background-color: rgba(0, 0, 0, 0.0);
