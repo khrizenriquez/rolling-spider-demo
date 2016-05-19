@@ -5,6 +5,12 @@ body {
     -webkit-animation: colorchange 50s; /* Chrome and Safari */
     animation-iteration-count: infinite;
 }
+footer {
+    bottom: 0;
+    position: fixed;
+    text-align: center;
+    width: 100%;
+}
 
 @keyframes colorchange {
     0%   {background: #1abc9c;}
@@ -108,7 +114,6 @@ body {
         width: 100%;
     }
     #login {
-        margin: 8em auto 0em auto;
         transition: all 0.2s ease;
         width: 90%;
     }
