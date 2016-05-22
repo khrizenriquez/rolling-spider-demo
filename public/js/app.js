@@ -4,14 +4,14 @@
 */
 'use strict';
 
-var ipData = (window.location.href.match('localhost') !== null) ? 'localhost' : '192.168.0.18';
+let ipData = (window.location.href.match('localhost') !== null) ? 'localhost' : '192.168.0.18';
 
-var droneActions, 
+let droneActions, 
     socket = io.connect(`http://${ipData}:3001`, { 'forceNew': true });
 
 socket.on('user-connected', function (data) {
     if (document.querySelector('#clients') !== null) {
-        var tmpResponse = '';
+        let tmpResponse = '';
         data.some(function (element, index, arr) {
             tmpResponse += `<div>${element.myName}</div>`;
         });
@@ -25,9 +25,9 @@ socket.on('user-actions', function (data) {
     getDroneActions();
 });
 
-var userAction = function (elementId) {
-    var actionId = parseInt(elementId);
-    var actionObject;
+let userAction = function (elementId) {
+    let actionId = parseInt(elementId);
+    let actionObject;
     droneActions.some(function (element, index, arr) {
         if (element.id === actionId) {
             actionObject = element;
@@ -36,8 +36,8 @@ var userAction = function (elementId) {
     });
 
     socket.on('user-actions', function (data) {
-        var queueList = document.querySelector('#queue-list .list');
-        var tmpData = '';
+        let queueList = document.querySelector('#queue-list .list');
+        let tmpData = '';
 
         data.some(function (element, index, arr) {
             if (element === null) return;
@@ -54,16 +54,16 @@ var userAction = function (elementId) {
 /*
 *   Obtenemos las acciones que el drone podrá ejecutar
 */
-var getDroneActions = function () {
-    var xhr = new XMLHttpRequest();
-    var element = document.querySelector('#options-container .options-container-elements');
+let getDroneActions = function () {
+    let xhr = new XMLHttpRequest();
+    let element = document.querySelector('#options-container .options-container-elements');
     xhr.onreadystatechange = function() {
         if (xhr.readyState == XMLHttpRequest.DONE) {
-            var response    = JSON.parse(xhr.responseText);
-            var actionPart  = document.createElement("div");
-            var txtResponse = '';
+            let response    = JSON.parse(xhr.responseText);
+            let actionPart  = document.createElement("div");
+            let txtResponse = '';
             response.some(function (element, index, arr) {
-                txtResponse += `<div onclick="return userAction(this.id);" class="drone-actions-list relative" id="${element.id}">${element.action} <span class="userAction drone-actions-list-icon">+</span></div>`;
+                txtResponse += `<div onclick="return userAction(this.id);" class="drone-actions-list relative button-3d" id="${element.id}">${element.action} <span class="userAction drone-actions-list-icon midnight-blue"><i class="fa fa-plus"></i></span></div>`;
             });
             droneActions        = response;
             element.innerHTML   = txtResponse;
@@ -74,11 +74,11 @@ var getDroneActions = function () {
 };
 
 document.addEventListener('DOMContentLoaded', function (e) {
-    var button     = document.querySelector('#connect');
-    var userName   = document.querySelector('#username');
+    let button     = document.querySelector('#connect');
+    let userName   = document.querySelector('#username');
     if (button !== null) {
         button.addEventListener('click', function (e) {
-            //var socket = io('/rolling-chanel');
+            //let socket = io('/rolling-chanel');
             e.preventDefault();
 
             if (/^\s*$/.test(document.querySelector('#username').value)) {
@@ -91,9 +91,9 @@ document.addEventListener('DOMContentLoaded', function (e) {
                     return false;
                 }
 
-                var login = document.querySelector('.login-container');
+                let login = document.querySelector('.login-container');
                 login.style.right = '100%';
-                var clientDiv = document.querySelector('#clientActions');
+                let clientDiv = document.querySelector('#clientActions');
                 setTimeout(function () {
                     clientDiv.classList.remove('display-none');
                     getDroneActions();
