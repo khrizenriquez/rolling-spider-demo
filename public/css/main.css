@@ -101,7 +101,11 @@ footer {
     display: none;
 }
 #clientActions {
+    margin: 1em auto;
+    padding: 0.5em;
+    background: red;
     transition: all 0.5s linear;
+    width: 90%;
 }
 #image-container {
     background-color: red;
