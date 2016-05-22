@@ -63,7 +63,7 @@ footer {
 .button-3d:hover {}
 
 .button-3d:active {
-    top: 7px;
+    top: 2px;
 }
 .drone-actions-list {
     padding: 0.5em;
