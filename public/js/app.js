@@ -13,7 +13,9 @@ socket.on('user-connected', function (data) {
     if (document.querySelector('#clients') !== null) {
         let tmpResponse = '';
         data.some(function (element, index, arr) {
-            tmpResponse += `<div>${element.myName}</div>`;
+            tmpResponse += `<div class="connected-clients">
+                                <i class="fa fa-user"></i> ${element.myName}
+                            </div>`;
         });
         document.querySelector('#clients .clients').innerHTML = tmpResponse;
     }
@@ -41,7 +43,7 @@ let userAction = function (elementId) {
 
         data.some(function (element, index, arr) {
             if (element === null) return;
-            tmpData += `<div id="${element.id}">${element.action}</div>`;
+            tmpData += `<div class="actions-client" id="${element.id}">${element.action}</div>`;
         });
         queueList.innerHTML = tmpData;
         //console.log(data);

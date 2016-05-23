@@ -4,6 +4,7 @@ body {
     /* you could also use milliseconds (ms) or something like 2.5s */
     -webkit-animation: colorchange 50s; /* Chrome and Safari */
     animation-iteration-count: infinite;
+    font-family: 'Roboto', sans-serif;
 }
 footer {
     bottom: 0;
@@ -65,6 +66,22 @@ footer {
 .button-3d:active {
     top: 2px;
 }
+.connected-clients {
+    margin: 0.2em 0;
+    background: green;
+    padding: 0.5em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.actions-client {
+    margin: 0.2em;
+    background: green;
+    padding: 0.5em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 .drone-actions-list {
     padding: 0.5em;
     background: #2980b9;
@@ -93,6 +110,9 @@ footer {
 }
 .relative {
     position: relative;
+}
+.roboto {
+    font-family: 'Roboto', sans-serif !important;
 }
 .text-center {
     text-align: center;

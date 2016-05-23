@@ -6,6 +6,8 @@
 
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
+        <link href='https://fonts.googleapis.com/css?family=Roboto:100' rel='stylesheet' type='text/css' />
+
         <link rel="stylesheet" href="/css/pureCss/pure-min.css" charset="utf-8" />
         <link rel="stylesheet" href="/css/pureCss/base-min.css" charset="utf-8" />
         <link rel="stylesheet" href="/css/pureCss/grids-responsive-min.css" charset="utf-8" />
@@ -33,9 +35,9 @@
 
             <div id="clientActions" class="display-none">
                 <div class="pure-g">
-                    <div id="options-container" class="pure-u-1 pure-u-md-2-5"><p>Acciones del drone</p><div class="options-container-elements"></div></div>
-                    <div id="queue-list" class="pure-u-1 pure-u-md-2-5"><p>Cola de peticiones</p><div class="list"></div></div>
-                    <div id="clients" class="pure-u-1 pure-u-md-1-5"><p>Clientes conectados</p><p class="clients"></p></div>
+                    <div id="options-container roboto" class="pure-u-1 pure-u-md-2-5"><h3>Acciones del drone</h3><div class="options-container-elements"></div></div>
+                    <div id="queue-list" class="pure-u-1 pure-u-md-2-5 roboto"><h3>Cola de peticiones</h3><div class="list"></div></div>
+                    <div id="clients" class="pure-u-1 pure-u-md-1-5 roboto"><h3>Clientes conectados</h3><h3 class="clients"></h3></div>
                 </div>
             </div>
         </div>
@@ -43,9 +45,9 @@
         {% else %}
         <div id="clientActions">
             <div class="pure-g">
-                <div id="options-container" class="pure-u-1 pure-u-md-2-5"><p>Acciones del drone</p><div class="options-container-elements"></div></div>
-                <div id="queue-list" class="pure-u-1 pure-u-md-2-5"><p>Cola de peticiones</p><div class="list"></div></div>
-                <div id="clients" class="pure-u-1 pure-u-md-1-5"><p>Clientes conectados</p><p class="clients"></p></div>
+                <div id="options-container" class="pure-u-1 pure-u-md-2-5 roboto"><h3>Acciones del drone</h3><div class="options-container-elements"></div></div>
+                <div id="queue-list" class="pure-u-1 pure-u-md-2-5 roboto"><h3>Cola de peticiones</h3><div class="list"></div></div>
+                <div id="clients" class="pure-u-1 pure-u-md-1-5 roboto"><h3>Clientes conectados</h3><h3 class="clients"></h3></div>
             </div>
         </div>
         {% endif %}
